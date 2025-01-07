@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.evaluation.mapper.CourseMapper">
+        <select id="findAll" resultType="com.example.evaluation.entity.Course">
+        SELECT * FROM sys_course ORDER BY create_time DESC
+    </select>
+
+    <select id="findByTeacherId" resultType="com.example.evaluation.entity.Course">
+        SELECT * FROM sys_course WHERE teacher_id = #{teacherId} ORDER BY create_time DESC
+    </select>
+
+    <select id="findById" resultType="com.example.evaluation.entity.Course">
+        SELECT * FROM sys_course WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.evaluation.entity.Course" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_course (
+            course_name, course_code, semester, teacher_id, 
+            status, create_time
+        )
+        VALUES (
+            #{courseName}, #{courseCode}, #{semester}, #{teacherId}, 
+            #{status}, NOW()
+        )
+    </insert>
+
+    <update id="update" parameterType="com.example.evaluation.entity.Course">
+        UPDATE sys_course
+        SET course_name = #{courseName},
+            course_code = #{courseCode},
+            semester = #{semester},
+            status = #{status},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM sys_course WHERE id = #{id}
+    </delete>
+</mapper> 

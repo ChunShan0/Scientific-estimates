@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.evaluation.mapper.EvaluationMapper">
+    <select id="findByCourseId" resultType="com.example.evaluation.entity.Evaluation">
+        SELECT * FROM sys_evaluation WHERE course_id = #{courseId} ORDER BY create_time DESC
+    </select>
+
+    <select id="findByEvaluatorId" resultType="com.example.evaluation.entity.Evaluation">
+        SELECT * FROM sys_evaluation WHERE evaluator_id = #{evaluatorId} ORDER BY create_time DESC
+    </select>
+
+    <select id="findById" resultType="com.example.evaluation.entity.Evaluation">
+        SELECT * FROM sys_evaluation WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.evaluation.entity.Evaluation" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_evaluation (
+            course_id, evaluator_id, teaching_score, content_score, 
+            interaction_score, comments, status, create_time
+        )
+        VALUES (
+            #{courseId}, #{evaluatorId}, #{teachingScore}, #{contentScore}, 
+            #{interactionScore}, #{comments}, #{status}, NOW()
+        )
+    </insert>
+
+    <update id="update" parameterType="com.example.evaluation.entity.Evaluation">
+        UPDATE sys_evaluation
+        SET teaching_score = #{teachingScore},
+            content_score = #{contentScore},
+            interaction_score = #{interactionScore},
+            comments = #{comments},
+            status = #{status},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM sys_evaluation WHERE id = #{id}
+    </delete>
+</mapper> 
